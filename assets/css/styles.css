@@ -1,3 +1,33 @@
+:root {
+    /* Raw stops */
+    --s-text: 240, 240, 240;
+    --s-background: 0, 0, 0;
+    --s-primary: 176, 196, 222;
+    --s-secondary: 100, 149, 237;
+    --s-accent: 255, 223, 0;
+
+    /* Main colors */
+    --text: rgb(var(--s-text));
+    --background: rgb(var(--s-background));
+    --primary: rgb(var(--s-primary));
+    --secondary: rgb(var(--s-secondary));
+    --accent: rgb(var(--s-accent));
+
+    /* Transparencies */
+    --t-primary: rgba(var(--s-primary), 0.35);
+    --t-secondary: rgba(var(--s-secondary), 0.35);
+    --t-accent: rgba(var(--s-accent), 0.35);
+
+    /* Color stops */
+    --stop-primary-secondary: var(--primary), var(--secondary);
+    --stop-primary-accent: var(--primary), var(--accent);
+    --stop-secondary-accent: var(--secondary), var(--accent);
+
+    --t-stop-primary-secondary: var(--t-primary), var(--t-secondary);
+    --t-stop-primary-accent: var(--t-primary), var(--t-accent);
+    --t-stop-secondary-accent: var(--t-secondary), var(--t-accent);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,8 +40,8 @@ html, body {
 }
 
 body {
-    background: white;
-    color: black;
+    background: var(--background);
+    color: var(--text);
     font-family: 'Geist', sans-serif;
     font-weight: 500;
     font-size: 18px;
@@ -21,7 +51,7 @@ body {
 
 nav {
     align-items: center;
-    background: white;
+    background: var(--background);
     /* background: linear-gradient(270deg, var(--stop-primary-secondary)); */
     display: flex;
     height: 65px;
@@ -45,7 +75,7 @@ nav::after {
 nav > h1 {
     text-align: center;
     font-size: 1.5em;
-    color: black;
+    color: var(--text);
 }
 
 input:focus {
@@ -70,32 +100,32 @@ main {
 }
 
 .card.primary {
-    background: darkcyan;;
-    border: solid 2px greenyellow;
+    background: var(--t-primary);
+    border: solid 2px var(--primary);
 }
 
 #common-cities-list > li:nth-of-type(even) > button,
 .card.secondary {
-    background: purple;
-    border: solid 2px greenyellow;
+    background: var(--t-secondary);
+    border: solid 2px var(--secondary);
 }
 
 #common-cities-list > li:nth-of-type(odd) > button,
 .card.accent {
-    background: silver;
-    border: solid 2px greenyellow;
+    background: var(--t-accent);
+    border: solid 2px var(--accent);
 }
 
 .card[data-background] {
-    background: black;
+    background: var(--background);
 }
 
 .card[data-border] {
-    border-color: greenyellow;
+    border-color: var(--border-color);
 }
 
 .card[data-background]:hover {
-    box-shadow: 0px 0px 75px black;
+    box-shadow: 0px 0px 75px var(--background);
 }
 
 /* CITIES DISPLAY */
@@ -122,20 +152,20 @@ main {
 #cities-search-display > form > input[type="text"] {
     padding: 0.5em 1em;
     border-radius: 5px;
-    border: solid 1px white;
+    border: solid 1px var(--text);
     font-size: 1em;
 }
 
 #cities-search-display > form > button {
     border-radius: 5px;
-    color: white;
+    color: var(--text);
     font-size: 1.05em;
     font-weight: bold;
     padding: 0.5em 1em;
 }
 
 #cities-search-display > hr {
-    border-color: greenyellow;
+    border-color: var(--secondary);
     border-width: 2px;
 }
 
@@ -152,7 +182,7 @@ main {
     border-radius: 5px;
     font-weight: 700;
     text-align: center;
-    color: white;
+    color: var(--text);
     width: 100%;
     font-size: 1em;
 }
@@ -194,6 +224,7 @@ main {
     transform-origin: top center;
     width: 100%;
     z-index: 0;
+    animation: wiggle 4s infinite;
 }
 
 #current-city-forecast:hover {
@@ -237,46 +268,69 @@ main {
     font-size: 2em;
 }
 
-/* insertion of attribute styling ex.h1/h2 variables  */
+@keyframes wiggle {
+    5% {
+        transform: rotate(0deg) translateY(-50%);
+    }
+    10% {
+        transform: rotate(10deg) translateY(-50%);
+    }
+    15% {
+        transform: rotate(-10deg) translateY(-50%);
+    }
+    20% {
+        transform: rotate(5deg) translateY(-50%);
+    }
+    25% {
+        transform: rotate(0deg) translateY(-50%);
+    }
 
-h1 {
-    font-weight: 750;
-}
-
-h2 {
-    font-weight: 600;
-}
-
-h3 {
-    font-weight: 450;
-}
-
-p {
-    font-weight: 300;
-}
-
-strong {
-    font-weight: 750;
-}
-
-em {
-    font-weight: 250;
+    to {
+        transform: rotate(0deg) translateY(-50%);
+    }
 }
 
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+@media screen and (max-width: 768px) {
+    #forecast-list > li {
+        width: 100%;
+    }
 }
 
-button { cursor: pointer; }
+@media screen and (min-width: 768px) {
+    nav > h1 {
+        font-size: 2em;
+    }
+
+    main {
+        flex-direction: row;
+    }
+
+    #cities-search-display {
+        max-width: 300px;
+    }
+
+    #current-city-forecast > span {
+        font-size: 5em;
+    }
+
+    #forecast-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    #forecast-list > li {
+        flex-grow: 1;
+        width: 250px;
+        max-width: max-content;
+        aspect-ratio: 1/1;
+        flex-basis: content;
+    }
+
+    #forecast-list > li:hover {
+        transform: scale(1.05);
+    }
+
+    #current-city-forecast > h2 {
+        font-size: 1.5em;
+    }
+}
